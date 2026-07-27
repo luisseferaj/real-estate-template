@@ -3,6 +3,8 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PropertiesBrowser } from "@/components/properties-browser"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "Pronat në shitje dhe me qira — Arta Estate",
   description: "Shfletoni prona ekskluzive në të gjithë Shqipërinë. Filtroni sipas vendndodhjes, çmimit dhe dhomave.",
