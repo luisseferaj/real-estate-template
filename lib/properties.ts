@@ -187,13 +187,36 @@ export async function getPropertyFromDB(id: string) {
   return data
 }
 
-export async function getSimilarFromDB(id: string) {
-  const { data, error } = await supabase
+export async function getSimilarFromDB(id: string, location?: string) {
+  // First try same city
+  if (location) {
+    const city = location.split(',')[0].trim()
+    const { data: sameCity } = await supabase
+      .from('properties')
+      .select('*')
+      .neq('id', id)
+      .ilike('location', `%${city}%`)
+      .limit(3)
+
+    if (sameCity && sameCity.length >= 3) return sameCity
+
+    // Fill remaining with other properties
+    const { data: others } = await supabase
+      .from('properties')
+      .select('*')
+      .neq('id', id)
+      .not('location', 'ilike', `%${city}%`)
+      .limit(3 - (sameCity?.length ?? 0))
+
+    return [...(sameCity ?? []), ...(others ?? [])]
+  }
+
+  // Fallback — just get any 3
+  const { data } = await supabase
     .from('properties')
     .select('*')
     .neq('id', id)
     .limit(3)
-  
-  if (error) return []
-  return data
+
+  return data ?? []
 }

@@ -8,31 +8,36 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { ImagePlus, Loader2, X } from 'lucide-react'
+import { ImagePlus, Loader2, X, Video } from 'lucide-react'
 
 type Notification = {
   id: string
   title: string
   content: string
   image: string
+  video_url: string
 }
 
 type FormState = {
   title: string
   content: string
   image: string
+  video_url: string
 }
 
 export function NotificationForm({ notification }: { notification?: Notification }) {
   const router = useRouter()
   const isEdit = Boolean(notification)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
   const [isPending, startTransition] = useTransition()
+  const [videoUploading, setVideoUploading] = useState(false)
 
   const [form, setForm] = useState<FormState>({
     title: notification?.title ?? '',
     content: notification?.content ?? '',
     image: notification?.image ?? '',
+    video_url: notification?.video_url ?? '',
   })
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -40,34 +45,71 @@ export function NotificationForm({ notification }: { notification?: Notification
   }
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-  const file = e.target.files?.[0]
-  if (!file) return
-  if (!file.type.startsWith('image/')) {
-    toast.error('Ju lutem zgjidhni një foto')
-    return
-  }
-  toast.info('Duke ngarkuar foton...')
-  const reader = new FileReader()
-  reader.onload = async () => {
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: reader.result }),
-      })
-      const json = await res.json()
-      if (json.url) {
-        update('image', json.url)
-        toast.success('Foto u ngarkua me sukses!')
-      } else {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      toast.error('Ju lutem zgjidhni një foto')
+      return
+    }
+    toast.info('Duke ngarkuar foton...')
+    const reader = new FileReader()
+    reader.onload = async () => {
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: reader.result, type: 'image' }),
+        })
+        const json = await res.json()
+        if (json.url) {
+          update('image', json.url)
+          toast.success('Foto u ngarkua me sukses!')
+        } else {
+          toast.error('Ngarkimi dështoi')
+        }
+      } catch {
         toast.error('Ngarkimi dështoi')
       }
-    } catch {
-      toast.error('Ngarkimi dështoi')
     }
+    reader.readAsDataURL(file)
   }
-  reader.readAsDataURL(file)
-}
+
+  async function handleVideoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('video/')) {
+      toast.error('Ju lutem zgjidhni një video')
+      return
+    }
+    if (file.size > 50 * 1024 * 1024) {
+      toast.error('Video duhet të jetë më e vogël se 50MB')
+      return
+    }
+    setVideoUploading(true)
+    toast.info('Duke ngarkuar videon...')
+    const reader = new FileReader()
+    reader.onload = async () => {
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: reader.result, type: 'video' }),
+        })
+        const json = await res.json()
+        if (json.url) {
+          update('video_url', json.url)
+          toast.success('Video u ngarkua me sukses!')
+        } else {
+          toast.error('Ngarkimi dështoi')
+        }
+      } catch {
+        toast.error('Ngarkimi dështoi')
+      } finally {
+        setVideoUploading(false)
+      }
+    }
+    reader.readAsDataURL(file)
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -128,11 +170,7 @@ export function NotificationForm({ notification }: { notification?: Notification
           />
           {form.image ? (
             <div className="relative h-48 w-full max-w-sm overflow-hidden rounded-lg border border-border">
-              <img
-                src={form.image}
-                alt="Preview"
-                className="h-full w-full object-cover"
-              />
+              <img src={form.image} alt="Preview" className="h-full w-full object-cover" />
               <button
                 type="button"
                 onClick={() => update('image', '')}
@@ -150,6 +188,47 @@ export function NotificationForm({ notification }: { notification?: Notification
               <ImagePlus className="h-8 w-8" />
               <span className="text-sm font-medium">Klikoni për të ngarkuar foto</span>
               <span className="text-xs">PNG ose JPG</span>
+            </button>
+          )}
+        </div>
+
+        {/* Video */}
+        <div className="flex flex-col gap-2">
+          <Label>Video (opsionale)</Label>
+          <input
+            ref={videoInputRef}
+            type="file"
+            accept="video/*"
+            onChange={handleVideoChange}
+            className="sr-only"
+          />
+          {form.video_url ? (
+            <div className="relative w-full max-w-sm rounded-lg border border-border overflow-hidden">
+              <video
+                src={form.video_url}
+                controls
+                className="w-full"
+                style={{ maxHeight: '200px' }}
+              />
+              <button
+                type="button"
+                onClick={() => update('video_url', '')}
+                className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-background/80 backdrop-blur hover:bg-background"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => videoInputRef.current?.click()}
+              disabled={videoUploading}
+              className="flex h-24 w-full max-w-sm flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground disabled:opacity-50"
+            >
+              <Video className="h-8 w-8" />
+              <span className="text-sm font-medium">
+                {videoUploading ? 'Duke ngarkuar videon...' : 'Klikoni për të ngarkuar video (max 50MB)'}
+              </span>
             </button>
           )}
         </div>

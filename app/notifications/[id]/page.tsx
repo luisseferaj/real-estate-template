@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
@@ -36,30 +35,70 @@ export default async function NotificationDetailPage({
         </Link>
 
         <article className="rounded-2xl border border-border bg-card overflow-hidden">
+          {n.video_url ? (
+  <>
+        <video
+          src={n.video_url}
+          loop
+          playsInline
+          controls
+          className="w-full"
+          style={{ maxHeight: '500px', objectFit: 'contain' }}
+        />
+        <div className="p-8">
+          <p className="text-xs font-medium text-primary mb-3">
+            {new Date(n.created_at).toLocaleDateString('sq-AL', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </p>
+          <h1 className="font-serif text-3xl font-semibold text-foreground">
+            {n.title}
+          </h1>
+          <div className="mt-6 text-muted-foreground leading-relaxed space-y-2">
+            {n.content.split('\n').map((line: string, i: number) => (
+              <p key={i}>{line || '\u00A0'}</p>
+            ))}
+          </div>
           {n.image && (
             <img
               src={n.image}
               alt={n.title}
-              style={{ height: '200px', width: '100%', objectFit: 'contain', background: '#f5f5f5' }}
+              className="mt-6 w-full rounded-xl"
+              style={{ maxHeight: '300px', objectFit: 'contain', background: '#f5f5f5' }}
             />
           )}
-          <div className="p-8">
-            <p className="text-xs font-medium text-primary mb-3">
-              {new Date(n.created_at).toLocaleDateString('sq-AL', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </p>
-            <h1 className="font-serif text-3xl font-semibold text-foreground">
-              {n.title}
-            </h1>
-            <div className="mt-6 text-muted-foreground leading-relaxed space-y-2">
-              {n.content.split('\n').map((line: string, i: number) => (
-                <p key={i}>{line || '\u00A0'}</p>
-              ))}
-            </div>
+        </div>
+      </>
+    ) : (
+      <>
+        {n.image && (
+          <img
+            src={n.image}
+            alt={n.title}
+            style={{ height: '200px', width: '100%', objectFit: 'contain', background: '#f5f5f5' }}
+          />
+        )}
+        <div className="p-8">
+          <p className="text-xs font-medium text-primary mb-3">
+            {new Date(n.created_at).toLocaleDateString('sq-AL', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </p>
+          <h1 className="font-serif text-3xl font-semibold text-foreground">
+            {n.title}
+          </h1>
+          <div className="mt-6 text-muted-foreground leading-relaxed space-y-2">
+            {n.content.split('\n').map((line: string, i: number) => (
+              <p key={i}>{line || '\u00A0'}</p>
+            ))}
           </div>
+        </div>
+      </>
+    )}
         </article>
       </section>
 

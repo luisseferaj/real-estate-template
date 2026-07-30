@@ -1,5 +1,6 @@
 'use client'
 
+import {BarChart2, Users} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -21,6 +22,8 @@ const navItems = [
   { href: '/admin/properties/new', label: 'Shto Pronë', icon: PlusCircle },
   { href: '/admin/notifications', label: 'Njoftimet', icon: Bell },
   { href: '/admin/notifications/new', label: 'Shto Njoftim', icon: PlusSquare },
+  { href: '/admin/agents', label: 'Agjentet', icon: Users}, 
+  { href: '/admin/stats', label:'Statistikat', icon: BarChart2}
 ]
 
 export function Sidebar() {

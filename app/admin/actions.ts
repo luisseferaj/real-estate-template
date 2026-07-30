@@ -111,6 +111,7 @@ export async function createNotification(data: Record<string, any>) {
     title: data.title,
     content: data.content,
     image: data.image,
+    video_url:data.video_url ?? '',
   })
   if (error) return { error: error.message }
   revalidatePath('/admin/notifications')
@@ -126,6 +127,7 @@ export async function updateNotification(id: string, data: Record<string, any>) 
       title: data.title,
       content: data.content,
       image: data.image,
+      video_url:data.video_url ?? '',
     })
     .eq('id', id)
   if (error) return { error: error.message }
@@ -142,5 +144,100 @@ export async function deleteNotification(id: string) {
     .eq('id', id)
   if (error) return { error: error.message }
   revalidatePath('/admin/notifications')
+  return { success: true }
+}
+
+// AGENTS
+export async function getAgents() {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('agents')
+    .select('*')
+    .order('created_at', { ascending: true })
+  if (error) throw new Error(error.message)
+  return data ?? []
+}
+
+export async function getAgent(id: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('agents')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle()
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export async function createAgent(data: Record<string, any>) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('agents').insert({
+    name: data.name,
+    role: data.role,
+    phone: data.phone,
+    email: data.email,
+    photo: data.photo,
+    instagram: data.instagram,
+  })
+  if (error) return { error: error.message }
+  revalidatePath('/admin/agents')
+  revalidatePath('/rreth-nesh')
+  redirect('/admin/agents')
+}
+
+export async function updateAgent(id: string, data: Record<string, any>) {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('agents')
+    .update({
+      name: data.name,
+      role: data.role,
+      phone: data.phone,
+      email: data.email,
+      photo: data.photo,
+      instagram: data.instagram,
+    })
+    .eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/admin/agents')
+  revalidatePath('/rreth-nesh')
+  redirect('/admin/agents')
+}
+
+export async function deleteAgent(id: string) {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('agents')
+    .delete()
+    .eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/admin/agents')
+  return { success: true }
+}
+
+export async function getStats() {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('stats')
+    .select('*')
+    .order('sort_order', { ascending: true })
+  if (error) throw new Error(error.message)
+  return data ?? []
+}
+
+export async function updateStat(id: string, data: Record<string, any>) {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('stats')
+    .update({
+      label_al: data.label_al,
+      label_en: data.label_en,
+      value: data.value,
+    })
+    .eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/admin/stats')
+  revalidatePath('/')
+  revalidatePath('/en')
   return { success: true }
 }

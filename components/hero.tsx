@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { MapPin, Home, Search, SlidersHorizontal, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Liu_Jian_Mao_Cao } from "next/font/google"
 
 export function Hero() {
   const router = useRouter()
@@ -24,7 +26,7 @@ export function Hero() {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-architecture.png"
+          src="/images/hero-architecture.jpg"
           alt="Arkitekturë moderne rezidenciale në Shqipëri"
           className="h-full w-full object-cover object-center opacity-90"
         />
@@ -53,46 +55,19 @@ export function Hero() {
 
       {/* Floating search bar */}
       <div className="relative mx-auto mt-14 max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xl shadow-foreground/5 sm:p-5">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <label className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-3">
-              <MapPin className="size-4 shrink-0 text-primary" />
-              <input
-                type="text"
-                placeholder="Vendndodhja"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              />
-            </label>
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="flex items-center rounded-xl border border-border bg-background px-3 py-3 text-sm text-muted-foreground outline-none"
-            >
-              <option value="">Lloji i pronës</option>
-              <option value="sale">Në Shitje</option>
-              <option value="rent">Me Qira</option>
-            </select>
-          </div>
-
-          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-            <Button
-              onClick={handleSearch}
-              className="h-11 flex-1 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 sm:flex-none sm:px-8"
-            >
-              <Search className="size-4" />
-              Kërko Pronë
-            </Button>
-            <Button
-              variant="outline"
-              className="h-11 flex-1 rounded-xl border-border bg-card text-foreground hover:bg-secondary sm:flex-none sm:px-6"
-              onClick={() => router.push('/pronat')}
-            >
-              <SlidersHorizontal className="size-4" />
-              Kërkim i avancuar
-            </Button>
-          </div>
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <Link
+            href="/pronat?lloji=sale"
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            Prona në Shitje
+          </Link>
+          <Link
+            href="/pronat?lloji=rent"
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl border-2 border-primary bg-transparent text-base font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            Prona me Qira
+          </Link>
         </div>
       </div>
     </section>

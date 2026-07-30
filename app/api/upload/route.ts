@@ -9,11 +9,12 @@ cloudinary.config({
 
 export async function POST(request: NextRequest) {
   try {
-    const { data } = await request.json()
+    const { data, type } = await request.json()
 
     const result = await cloudinary.uploader.upload(data, {
       upload_preset: 'real-estate',
       folder: 'real-estate',
+      resource_type: type === 'video' ? 'video' : 'image',
     })
 
     return NextResponse.json({ url: result.secure_url })
