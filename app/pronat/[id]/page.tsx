@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { PropertyGallery } from "@/components/property-gallery"
 import { PropertyCard } from "@/components/property-card"
 import { Button } from "@/components/ui/button"
+import {supabase} from '@/lib/supabase'
 
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -36,12 +37,19 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
   const isRent = property.status === "rent"
   const similar = await getSimilarFromDB(property.id, property.location)
-  const agent = {
-    name: "Atjon Gjoni",
-    role: "Agjent i Licensuar",
-    phone: "+355 69 947 7107",
-    email: "alpiinvest.intl@gmail.com",
-  }
+  const { data: agentData } = await supabase
+  .from('agents')
+  .select('*')
+  .order('created_at', { ascending: true })
+  .limit(1)
+  .maybeSingle()
+
+const agent = {
+  name: agentData?.name ?? "Atjon Gjoni",
+  role: agentData?.role ?? "Agjent i Licensuar",
+  phone: agentData?.phone ?? "+355 69 947 7107",
+  email: agentData?.email ?? "alpiinvest.intl@gmail.com",
+}
   const whatsappHref = agent.phone ? `https://wa.me/${agent.phone.replace(/\s/g, "").replace("+", "")}?text=${encodeURIComponent(
   `Përshëndetje, jam i interesuar për pronën: ${property.title}`,
   )}` : "#"
