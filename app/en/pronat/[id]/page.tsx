@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PropertyGallery } from "@/components/property-gallery"
 import { PropertyCard } from "@/components/property-card"
-import {supabase} from '@/lib/supabase'
+import {createClient} from '@/lib/supabase/server'
 
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -27,19 +27,21 @@ export default async function EnglishPropertyDetailPage({ params }: { params: Pr
 
   const isRent = property.status === "rent"
   const similar = await getSimilarFromDB(property.id, property.location)
-  const { data: agentData } = await supabase
-  .from('agents')
-  .select('*')
-  .order('created_at', { ascending: true })
-  .limit(1)
-  .maybeSingle()
 
-const agent = {
-  name: agentData?.name ?? "Atjon Gjoni",
-  role: agentData?.role ?? "Agjent i Licensuar",
-  phone: agentData?.phone ?? "+355 69 947 7107",
-  email: agentData?.email ?? "alpiinvest.intl@gmail.com",
-}
+  const supabase = await createClient()
+  const { data: agentData } = await supabase
+    .from('agents')
+    .select('*')
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  const agent = {
+    name: agentData?.name ?? '',
+    role: agentData?.role ?? '',
+    phone: agentData?.phone ?? '',
+    email: agentData?.email ?? '',
+  }
   const whatsappHref = agent.phone
     ? `https://wa.me/${agent.phone.replace(/\s/g, "").replace("+", "")}?text=${encodeURIComponent(
         `Hello, I am interested in the property: ${property.title}`,
