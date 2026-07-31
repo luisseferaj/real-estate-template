@@ -38,6 +38,7 @@ export async function createProperty(data: Record<string, any>) {
     description: data.description,
     youtube_id: data.youtube_id,
     image: data.image,
+    agent_id:data.agent_id || null,
   })
   if (error) return { error: error.message }
   revalidatePath('/admin/dashboard')
@@ -59,6 +60,7 @@ export async function updateProperty(id: string, data: Record<string, any>) {
       description: data.description,
       youtube_id: data.youtube_id,
       image: data.image,
+      agent_id:data.agent_id || null,
     })
     .eq('id', id)
   if (error) return { error: error.message }

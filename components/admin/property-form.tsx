@@ -20,6 +20,11 @@ import { ImagePlus, Loader2, X } from 'lucide-react'
 
 type PropertyStatus = 'sale' | 'rent'
 
+type Agent = {
+  id: string
+  name: string
+}
+
 type FormState = {
   title: string
   price: number | string
@@ -32,6 +37,7 @@ type FormState = {
   youtube_id: string
   image: string
   gallery: string[]
+  agent_id: string
 }
 
 type Property = {
@@ -47,9 +53,10 @@ type Property = {
   youtube_id: string
   image: string
   gallery: string[]
+  agent_id?: string | null
 }
 
-export function PropertyForm({ property }: { property?: Property }) {
+export function PropertyForm({ property, agents = [] }: { property?: Property; agents?: Agent[] }) {
   const router = useRouter()
   const isEdit = Boolean(property)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -69,6 +76,7 @@ export function PropertyForm({ property }: { property?: Property }) {
     youtube_id: property?.youtube_id ?? '',
     image: property?.image ?? '',
     gallery: property?.gallery ?? [],
+    agent_id: property?.agent_id ?? '',
   })
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -246,6 +254,26 @@ export function PropertyForm({ property }: { property?: Property }) {
             </SelectContent>
           </Select>
         </div>
+
+        {/* Agent */}
+        {agents.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="agent">Agjenti</Label>
+            <Select
+              value={form.agent_id || ''}
+              onValueChange={(value) => update('agent_id', value ?? '')}
+            >
+              <SelectTrigger id="agent" className="w-full sm:w-56">
+                <SelectValue placeholder="Zgjidhni agjentin" />
+              </SelectTrigger>
+              <SelectContent>
+                {agents.map((a) => (
+                  <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Description */}
         <div className="flex flex-col gap-2">

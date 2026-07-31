@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { PropertyForm } from '@/components/admin/property-form'
 import { ArrowLeft } from 'lucide-react'
+import { getAgents } from '../../actions'
 
-export default function NewPropertyPage() {
+export default async function NewPropertyPage() {
+  const agents = await getAgents()
   return (
     <AdminShell>
       <header className="border-b border-border px-8 py-6">
@@ -23,7 +25,7 @@ export default function NewPropertyPage() {
       </header>
 
       <div className="flex-1 overflow-auto p-8">
-        <PropertyForm />
+        <PropertyForm agents={agents} />
       </div>
     </AdminShell>
   )

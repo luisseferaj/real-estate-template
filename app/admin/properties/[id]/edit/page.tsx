@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getProperty } from '@/app/admin/actions'
+import { getProperty, getAgents } from '@/app/admin/actions'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { PropertyForm } from '@/components/admin/property-form'
 import { ArrowLeft } from 'lucide-react'
@@ -11,7 +11,10 @@ export default async function EditPropertyPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const property = await getProperty(id)
+  const [property, agents] = await Promise.all([
+    getProperty(id),
+    getAgents(),
+  ])
 
   if (!property) notFound()
 
@@ -35,7 +38,7 @@ export default async function EditPropertyPage({
       </header>
 
       <div className="flex-1 overflow-auto p-8">
-        <PropertyForm property={property} />
+        <PropertyForm property={property} agents={agents} />
       </div>
     </AdminShell>
   )
