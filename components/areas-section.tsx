@@ -8,7 +8,7 @@ const areas = [
     description_al: "Qyteti në rritje pranë Tiranës me mundësi të shkëlqyera investimi.",
     description_en: "A growing town near Tirana with excellent investment opportunities.",
     image: "/cities/kamez.jpg",
-    query: "Kamëz",
+    query: "Kamez",
   },
   {
     city_al: "Tiranë",
@@ -16,7 +16,7 @@ const areas = [
     description_al: "Kryeqyteti i Shqipërisë me treg të larmishëm pronash.",
     description_en: "Albania's capital with a diverse and dynamic property market.",
     image: "/cities/tirana.jpg",
-    query: "Tiranë",
+    query: "Tirane",
   },
   {
     city_al: "Durrës",
@@ -24,7 +24,7 @@ const areas = [
     description_al: "Qyteti bregdetar me mundësi të shkëlqyera investimi.",
     description_en: "Coastal city with excellent investment opportunities.",
     image: "/cities/durres.webp",
-    query: "Durrës",
+    query: "Durres",
   },
   {
     city_al: "Vlorë",
@@ -32,7 +32,7 @@ const areas = [
     description_al: "Mes detit dhe maleve, me potencial të lartë turistik.",
     description_en: "Between sea and mountains, with high tourism potential.",
     image: "/cities/vlore.jpg",
-    query: "Vlorë",
+    query: "Vlore",
   },
 ]
 

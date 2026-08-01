@@ -60,7 +60,7 @@ export function PropertiesBrowser({ lang = "al" }: { lang?: Lang }) {
         p.title.toLowerCase().includes(query.toLowerCase())
       const matchesStatus = status === "all" || p.status === status
       const matchesPrice = p.price >= min && p.price <= max
-      const matchesBeds = beds === 0 || p.beds >= beds
+      const matchesBeds = beds === 0 || (beds === 4 ? p.beds >= 4: p.beds === beds)
       return matchesQuery && matchesStatus && matchesPrice && matchesBeds
     })
   }, [query, status, minPrice, maxPrice, beds, allProperties])
@@ -151,9 +151,9 @@ export function PropertiesBrowser({ lang = "al" }: { lang?: Lang }) {
               className={selectClass}
             >
               <option value={0}>{lang === "en" ? "All rooms" : "Të gjitha dhomat"}</option>
-              <option value={1}>{lang === "en" ? "1+ Beds" : "1+ Dhoma"}</option>
-              <option value={2}>{lang === "en" ? "2+ Beds" : "2+ Dhoma"}</option>
-              <option value={3}>{lang === "en" ? "3+ Beds" : "3+ Dhoma"}</option>
+              <option value={1}>{lang === "en" ? "1 Beds" : "1+ Dhoma"}</option>
+              <option value={2}>{lang === "en" ? "2 Beds" : "2+ Dhoma"}</option>
+              <option value={3}>{lang === "en" ? "3 Beds" : "3+ Dhoma"}</option>
               <option value={4}>{lang === "en" ? "4+ Beds" : "4+ Dhoma"}</option>
             </select>
           </div>
