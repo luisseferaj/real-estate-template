@@ -151,9 +151,9 @@ export function PropertiesBrowser({ lang = "al" }: { lang?: Lang }) {
               className={selectClass}
             >
               <option value={0}>{lang === "en" ? "All rooms" : "Të gjitha dhomat"}</option>
-              <option value={1}>{lang === "en" ? "1 Beds" : "1+ Dhoma"}</option>
-              <option value={2}>{lang === "en" ? "2 Beds" : "2+ Dhoma"}</option>
-              <option value={3}>{lang === "en" ? "3 Beds" : "3+ Dhoma"}</option>
+              <option value={1}>{lang === "en" ? "1 Beds" : "1 Dhoma"}</option>
+              <option value={2}>{lang === "en" ? "2 Beds" : "2 Dhoma"}</option>
+              <option value={3}>{lang === "en" ? "3 Beds" : "3 Dhoma"}</option>
               <option value={4}>{lang === "en" ? "4+ Beds" : "4+ Dhoma"}</option>
             </select>
           </div>
