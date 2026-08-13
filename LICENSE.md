@@ -1,6 +1,6 @@
 # Commercial License
 
-Copyright (c) 2026 [Your Name]
+Copyright (c) 2026 Luis Seferaj
 
 ## Single Use License
 
