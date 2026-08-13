@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { MapPin, Phone, Mail, Building2, CheckCircle } from 'lucide-react'
-import Link from 'next/link'
 import { AgentsSection } from '@/components/agents-section'
+import { config } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: 'About Us — ALPIINVEST Properties',
-  description: 'ALPIINVEST Properties is a real estate company dedicated to providing professional services across Albania.',
+  title: `About Us — ${config.companyName}`,
+  description: config.aboutDescription,
 }
 
 const services = [
@@ -27,10 +27,10 @@ export default function EnglishAboutPage() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <p className="text-sm font-medium text-primary">About Us</p>
           <h1 className="mt-3 max-w-2xl text-balance font-serif text-4xl font-semibold sm:text-5xl">
-            ALPIINVEST Properties
+            {config.companyName}
           </h1>
           <p className="mt-4 max-w-2xl text-pretty text-accent-foreground/70 leading-relaxed">
-            A real estate company dedicated to providing professional services in the sale, purchase, rental and investment consulting for real estate across Albania.
+            {config.aboutDescription}
           </p>
         </div>
       </section>
@@ -46,7 +46,7 @@ export default function EnglishAboutPage() {
               Our Mission
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Our mission is to build trust through transparency, professionalism and maximum dedication to every client. We believe that every property is more than an investment — it is a step towards the future.
+              {config.missionStatement}
             </p>
 
             <h2 className="font-serif text-2xl font-semibold text-foreground mt-10 mb-4">
@@ -70,53 +70,66 @@ export default function EnglishAboutPage() {
 
               <div className="flex flex-col gap-5">
                 <div>
-                  <p className="font-semibold text-foreground">A. Gjoni</p>
-                  <p className="text-sm text-muted-foreground">Founder {"&"} Real Estate Consultant</p>
+                  <p className="font-semibold text-foreground">{config.founderName}</p>
+                  <p className="text-sm text-muted-foreground">{config.founderRole}</p>
                 </div>
 
-                <a href="tel:+355699477107" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
-                    <Phone className="h-4 w-4 text-primary" />
-                  </div>
-                  +355 69 947 7107
-                </a>
+                {config.phone && (
+                  <a href={`tel:${config.phone.replace(/\s/g, '')}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
+                      <Phone className="h-4 w-4 text-primary" />
+                    </div>
+                    {config.phone}
+                  </a>
+                )}
 
-                <a href="mailto:alpiinvest.intl@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
-                    <Mail className="h-4 w-4 text-primary" />
-                  </div>
-                  alpiinvest.intl@gmail.com
-                </a>
+                {config.email && (
+                  <a href={`mailto:${config.email}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
+                      <Mail className="h-4 w-4 text-primary" />
+                    </div>
+                    {config.email}
+                  </a>
+                )}
 
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
-                    <MapPin className="h-4 w-4 text-primary" />
+                {config.address && (
+                  <div className="flex items-center gap-3 text-muted-foreground">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
+                      <MapPin className="h-4 w-4 text-primary" />
+                    </div>
+                    {config.address}
                   </div>
-                  Tirana, Albania
+                )}
+
+                {config.instagram && (
+                  <a href={config.instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary font-bold text-sm">
+                      IG
+                    </div>
+                    {config.instagram}
+                  </a>
+                )}
+              </div>
+
+              {config.whatsapp && (
+                <div className="mt-8 pt-6 border-t border-border">
+                  <a href={config.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+                    Contact us on WhatsApp
+                  </a>
                 </div>
-
-                <a href="https://instagram.com/alpiinvest_properties" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary font-bold text-sm">
-                    IG
-                  </div>
-                  @alpiinvest_properties
-                </a>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-border">
-                <a href="https://wa.me/355699477107" target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-                  Contact us on WhatsApp
-                </a>
-              </div>
+              )}
             </div>
 
-            <p className="mt-8 text-center text-sm text-muted-foreground italic">
-              ALPIINVEST Properties — Creating value through trust and smart real estate investments.
-            </p>
+            {config.slogan && (
+              <p className="mt-8 text-center text-sm text-muted-foreground italic">
+                {config.companyName} — {config.slogan}
+              </p>
+            )}
           </div>
         </div>
       </section>
-      <AgentsSection lang="en"/>
+
+      <AgentsSection lang="en" />
       <SiteFooter lang="en" />
     </main>
   )

@@ -53,7 +53,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     email: agentData?.email ?? '',
   }
   const whatsappHref = agent.phone ? `https://wa.me/${agent.phone.replace(/\s/g, "").replace("+", "")}?text=${encodeURIComponent(
-  `Përshëndetje, jam i interesuar për pronën: ${property.title}`,
+  `Hello, I am interested in the property: ${property.title}`,
   )}` : "#"
 
   const specs = [

@@ -1,44 +1,46 @@
 import Link from "next/link"
 import { type Lang } from "@/lib/i18n"
 
+const gradients = [
+  "from-blue-900 to-blue-700",
+  "from-emerald-900 to-emerald-700",
+  "from-amber-900 to-amber-700",
+  "from-purple-900 to-purple-700",
+]
+
 const areas = [
   {
-    city_al: "Kamëz",
-    city_en: "Kamëz",
-    description_al: "Qyteti në rritje pranë Tiranës me mundësi të shkëlqyera investimi.",
-    description_en: "A growing town near Tirana with excellent investment opportunities.",
-    image: "/cities/kamez.jpg",
-    query: "Kamez",
+    city_al: "Zona 1",
+    city_en: "Area 1",
+    description_al: "Përshkrimi i zonës së parë.",
+    description_en: "Description of the first area.",
+    query: "Area 1",
   },
   {
-    city_al: "Tiranë",
-    city_en: "Tirana",
-    description_al: "Kryeqyteti i Shqipërisë me treg të larmishëm pronash.",
-    description_en: "Albania's capital with a diverse and dynamic property market.",
-    image: "/cities/tirana.jpg",
-    query: "Tirane",
+    city_al: "Zona 2",
+    city_en: "Area 2",
+    description_al: "Përshkrimi i zonës së dytë.",
+    description_en: "Description of the second area.",
+    query: "Area 2",
   },
   {
-    city_al: "Durrës",
-    city_en: "Durrës",
-    description_al: "Qyteti bregdetar me mundësi të shkëlqyera investimi.",
-    description_en: "Coastal city with excellent investment opportunities.",
-    image: "/cities/durres.webp",
-    query: "Durres",
+    city_al: "Zona 3",
+    city_en: "Area 3",
+    description_al: "Përshkrimi i zonës së tretë.",
+    description_en: "Description of the third area.",
+    query: "Area 3",
   },
   {
-    city_al: "Vlorë",
-    city_en: "Vlorë",
-    description_al: "Mes detit dhe maleve, me potencial të lartë turistik.",
-    description_en: "Between sea and mountains, with high tourism potential.",
-    image: "/cities/vlore.jpg",
-    query: "Vlore",
+    city_al: "Zona 4",
+    city_en: "Area 4",
+    description_al: "Përshkrimi i zonës së katërt.",
+    description_en: "Description of the fourth area.",
+    query: "Area 4",
   },
 ]
 
 export function AreasSection({ lang = "al" }: { lang?: Lang }) {
   const prefix = lang === "en" ? "/en" : ""
-  const pronatPath = lang === "en" ? "pronat" : "pronat"
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -52,24 +54,17 @@ export function AreasSection({ lang = "al" }: { lang?: Lang }) {
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {areas.map((area) => {
+        {areas.map((area, index) => {
           const city = lang === "en" ? area.city_en : area.city_al
           const description = lang === "en" ? area.description_en : area.description_al
 
           return (
             <Link
               key={area.city_en}
-              href={`${prefix}/${pronatPath}?adresa=${encodeURIComponent(area.query)}`}
-              className="group relative overflow-hidden rounded-2xl border border-border"
+              href={`${prefix}/pronat?adresa=${encodeURIComponent(area.query)}`}
+              className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${gradients[index]}`}
               style={{ aspectRatio: "3/4" }}
             >
-              {/* Photo */}
-              <img
-                src={area.image}
-                alt={city}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 

@@ -1,17 +1,18 @@
 import Link from "next/link"
 import { type Lang } from "@/lib/i18n"
+import { config } from "@/lib/config"
 import { Home, Key, TrendingUp, Megaphone, FileText } from "lucide-react"
 
 const services = {
   al: [
-    { icon: Home, title: "Shitje & Blerje", description: "Apartamente, vila, toka dhe njësi tregtare në të gjithë Shqipërinë." },
+    { icon: Home, title: "Shitje & Blerje", description: "Apartamente, vila, toka dhe njësi tregtare." },
     { icon: Key, title: "Dhënie me Qira", description: "Gjeni pronën e duhur për qira ose jepni pronën tuaj me qira." },
     { icon: TrendingUp, title: "Konsulencë Investimesh", description: "Këshilla profesionale për investime të zgjuara në pasuri të paluajtshme." },
     { icon: Megaphone, title: "Marketing Profesional", description: "Prezantojmë pronën tuaj me fotografí dhe materiale profesionale." },
     { icon: FileText, title: "Asistencë Dokumentacioni", description: "Ju shoqërojmë në çdo hap të procesit të negocimit dhe dokumentacionit." },
   ],
   en: [
-    { icon: Home, title: "Sale & Purchase", description: "Apartments, villas, land and commercial units across Albania." },
+    { icon: Home, title: "Sale & Purchase", description: "Apartments, villas, land and commercial units." },
     { icon: Key, title: "Rental", description: "Find the right property to rent or list your property for rent." },
     { icon: TrendingUp, title: "Investment Consulting", description: "Professional advice for smart real estate investments." },
     { icon: Megaphone, title: "Professional Marketing", description: "We present your property with professional photos and materials." },
@@ -61,13 +62,11 @@ export function ServicesSection({ lang = "al" }: { lang?: Lang }) {
         </div>
 
         {/* Right — company photo */}
-        <div className="relative overflow-hidden rounded-2xl border border-border">
-          <img
-            src="/description.jpeg"
-            alt="ALPIINVEST Properties"
-            className="w-full object-contain"
-            style={{maxHeight:'500px'}}
-          />
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center" style={{ minHeight: '400px' }}>
+          <div className="text-center p-8">
+            <img src={config.logo} alt={config.companyName} className="h-24 w-auto mx-auto mb-4 opacity-80" />
+            <p className="text-muted-foreground text-sm">{config.companyName}</p>
+          </div>
         </div>
 
       </div>

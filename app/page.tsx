@@ -18,15 +18,15 @@ export default async function Page() {
       <SiteHeader overlay />
       <div className="flex-1">
         <Hero />
-        <ServicesSection />
+        <ServicesSection lang="en" />
         <StatsSection stats={stats} />
-        <HowItWorksSection />
-        <PropertyGrid />
-        <AreasSection/>
-        <NotificationsPreview />
-        <CtaSection />
+        <HowItWorksSection lang="en"/>
+        <PropertyGrid lang="en"/>
+        <AreasSection lang="en"/>
+        <NotificationsPreview lang="en" />
+        <CtaSection lang="en" />
       </div>
-      <SiteFooter />
+      <SiteFooter lang="en" />
     </main>
   )
 }

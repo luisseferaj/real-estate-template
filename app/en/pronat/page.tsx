@@ -3,9 +3,10 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PropertiesBrowser } from "@/components/properties-browser"
 import { Suspense } from "react"
+import { config } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: "Properties for Sale and Rent — ALPIINVEST Properties",
+  title: "Properties for Sale and Rent — ${config.companyName}",
   description: "Browse exclusive properties across Albania. Filter by location, price and rooms.",
 }
 

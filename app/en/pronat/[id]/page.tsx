@@ -8,14 +8,14 @@ import { SiteFooter } from "@/components/site-footer"
 import { PropertyGallery } from "@/components/property-gallery"
 import { PropertyCard } from "@/components/property-card"
 import {createClient} from '@/lib/supabase/server'
-
+import { config } from '@/lib/config'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const property = await getPropertyFromDB(id)
-  if (!property) return { title: "Property not found — ALPIINVEST Properties" }
+  if (!property) return { title: "Property not found — ${config.companyName}" }
   return {
-    title: `${property.title} — ALPIINVEST Properties`,
+    title: `${property.title} — ${config.companyName}`,
     description: property.description?.slice(0, 155),
   }
 }

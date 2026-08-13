@@ -4,10 +4,11 @@ import { SiteFooter } from '@/components/site-footer'
 import { supabase } from '@/lib/supabase'
 import { Bell } from 'lucide-react'
 import Link from 'next/link'
+import { config } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: 'News — ALPIINVEST Properties',
-  description: 'Latest news and announcements from ALPIINVEST Properties.',
+  title: 'News — {config.companyName}',
+  description: 'Latest news and announcements from ${config.companyName}.',
 }
 
 export const dynamic = 'force-dynamic'

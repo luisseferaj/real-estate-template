@@ -18,7 +18,7 @@ function getNavItems(lang: Lang) {
 }
 
 function getLang(pathname: string): Lang {
-  return pathname.startsWith("/en") ? "en" : "al"
+  return pathname.startsWith("/al") ? "al" : "en"
 }
 
 function switchLang(pathname: string, lang: Lang): string {

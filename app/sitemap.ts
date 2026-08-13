@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next'
 import { supabase } from '@/lib/supabase'
+import {config} from '@/lib/config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://alpiinvestproperties.al' // change to real domain later
+  const baseUrl = config.siteUrl // change to real domain later
 
   // Get all properties
   const { data: properties } = await supabase

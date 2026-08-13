@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Building2, Loader2 } from 'lucide-react'
+import { config } from '@/lib/config'
 
 export function LoginForm() {
   const router = useRouter()
@@ -44,10 +45,10 @@ export function LoginForm() {
           <Building2 className="h-7 w-7 text-primary" />
         </div>
         <h1 className="font-serif text-3xl font-semibold tracking-tight">
-          ALPIINVEST Admin
+          {config.companyName} Admin
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Hyni për të menaxhuar pronat tuaja.
+          Sign in to manage your listings.
         </p>
       </div>
 
@@ -62,7 +63,7 @@ export function LoginForm() {
               id="email"
               type="email"
               autoComplete="email"
-              placeholder="admin@alpiinvest.al"
+              placeholder="admin@yourcompany.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

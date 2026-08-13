@@ -137,7 +137,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
             id="name"
             value={form.name}
             onChange={(e) => update('name', e.target.value)}
-            placeholder="Atjon Gjoni"
+            placeholder="Agent Name"
             required
           />
         </div>
@@ -160,7 +160,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
             id="phone"
             value={form.phone}
             onChange={(e) => update('phone', e.target.value)}
-            placeholder="+355 69 947 7107"
+            placeholder="+1 234 567 890"
           />
         </div>
 
@@ -171,7 +171,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
             id="email"
             value={form.email}
             onChange={(e) => update('email', e.target.value)}
-            placeholder="alpiinvest.intl@gmail.com"
+            placeholder="agent@company.com"
           />
         </div>
 
@@ -182,7 +182,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
             id="instagram"
             value={form.instagram}
             onChange={(e) => update('instagram', e.target.value)}
-            placeholder="@alpiinvest_properties"
+            placeholder="@yourinstagram"
           />
         </div>
       </div>
