@@ -13,3 +13,15 @@ __v0_jsx-dev-runtime.ts
 node_modules
 .next/
 .DS_Store
+
+# Placeholder photos - buyers add their own
+/public/logo.jpeg
+/public/description.jpeg
+/public/images/hero-architecture.jpg
+/public/images/cta-city.jpg
+/public/cities/
+/public/favicon*.png
+/public/apple-touch-icon.png
+/public/favicon.ico
+/public/icon*.png
+/public/icon.svg
