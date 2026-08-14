@@ -32,7 +32,7 @@ export function StatsEditor({ stats }: { stats: Stat[] }) {
       if (result?.error) {
         toast.error(result.error)
       } else {
-        toast.success('Statistika u përditësua!')
+        toast.success('Statistics updated!')
       }
     })
   }
@@ -43,7 +43,7 @@ export function StatsEditor({ stats }: { stats: Stat[] }) {
         <div key={stat.id} className="rounded-xl border border-border bg-card p-6">
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="flex flex-col gap-2">
-              <Label>Vlera</Label>
+              <Label>Value</Label>
               <Input
                 value={stat.value}
                 onChange={(e) => updateForm(stat.id, 'value', e.target.value)}
@@ -51,7 +51,7 @@ export function StatsEditor({ stats }: { stats: Stat[] }) {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Etiketa (Shqip)</Label>
+              <Label>Label (Albanian)</Label>
               <Input
                 value={stat.label_al}
                 onChange={(e) => updateForm(stat.id, 'label_al', e.target.value)}
@@ -59,7 +59,7 @@ export function StatsEditor({ stats }: { stats: Stat[] }) {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Etiketa (Anglisht)</Label>
+              <Label>Label (English)</Label>
               <Input
                 value={stat.label_en}
                 onChange={(e) => updateForm(stat.id, 'label_en', e.target.value)}
@@ -75,7 +75,7 @@ export function StatsEditor({ stats }: { stats: Stat[] }) {
               className="gap-1.5"
             >
               {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-              Ruaj
+              Save
             </Button>
           </div>
         </div>

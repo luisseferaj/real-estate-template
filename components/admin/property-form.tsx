@@ -87,10 +87,10 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      toast.error('Ju lutem zgjidhni një foto')
+      toast.error('Please select an image file')
       return
     }
-    toast.info('Duke ngarkuar foton...')
+    toast.info('Uploading photo...')
     const reader = new FileReader()
     reader.onload = async () => {
       try {
@@ -102,12 +102,12 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
         const json = await res.json()
         if (json.url) {
           update('image', json.url)
-          toast.success('Foto u ngarkua me sukses!')
+          toast.success('Photo uploaded successfully!')
         } else {
-          toast.error('Ngarkimi dështoi')
+          toast.error('Upload failed')
         }
       } catch {
-        toast.error('Ngarkimi dështoi')
+        toast.error('Upload failed')
       }
     }
     reader.readAsDataURL(file)
@@ -117,7 +117,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
     const files = Array.from(e.target.files ?? [])
     if (files.length === 0) return
     setGalleryUploading(true)
-    toast.info('Duke ngarkuar fotot...')
+    toast.info('Uploading photos...')
 
     const urls: string[] = []
     for (const file of files) {
@@ -142,7 +142,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
 
     update('gallery', [...form.gallery, ...urls])
     setGalleryUploading(false)
-    toast.success(`${urls.length} foto u ngarkuan me sukses!`)
+    toast.success(`${urls.length} photos uploaded successfully!`)
   }
 
   function removeGalleryImage(index: number) {
@@ -152,7 +152,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.title.trim()) {
-      toast.error('Titulli është i detyrueshëm')
+      toast.error('Title is required')
       return
     }
     startTransition(async () => {
@@ -170,19 +170,19 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
       <div className="grid gap-6 rounded-xl border border-border bg-card p-6 sm:p-8">
         {/* Title */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="title">Titulli</Label>
+          <Label htmlFor="title">Title</Label>
           <Input
             id="title"
             value={form.title}
             onChange={(e) => update('title', e.target.value)}
-            placeholder="Apartament modern në qendër"
+            placeholder="Modern Apartment in the Center"
             required
           />
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="price">Çmimi (€)</Label>
+            <Label htmlFor="price">Price (€)</Label>
             <Input
               id="price"
               type="number"
@@ -194,12 +194,12 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="location">Vendndodhja</Label>
+            <Label htmlFor="location">Location</Label>
             <Input
               id="location"
               value={form.location}
               onChange={(e) => update('location', e.target.value)}
-              placeholder="Tiranë, Bllok"
+              placeholder="...Street, City, Country"
               required
             />
           </div>
@@ -207,7 +207,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
 
         <div className="grid gap-6 sm:grid-cols-3">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="beds">Dhoma gjumi</Label>
+            <Label htmlFor="beds">Bedrooms</Label>
             <Input
               id="beds"
               type="number"
@@ -217,7 +217,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="baths">Banjo</Label>
+            <Label htmlFor="baths">Bathrooms</Label>
             <Input
               id="baths"
               type="number"
@@ -227,7 +227,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="area">Sipërfaqe (m²)</Label>
+            <Label htmlFor="area">Area (m²)</Label>
             <Input
               id="area"
               type="number"
@@ -240,7 +240,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
 
         {/* Status */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="status">Statusi</Label>
+          <Label htmlFor="status">Status</Label>
           <Select
             value={form.status}
             onValueChange={(value) => update('status', value as PropertyStatus)}
@@ -249,8 +249,8 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
               <SelectValue placeholder="Zgjidhni statusin" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="sale">Në Shitje</SelectItem>
-              <SelectItem value="rent">Me Qira</SelectItem>
+              <SelectItem value="sale">For Sale</SelectItem>
+              <SelectItem value="rent">For Rent</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -258,7 +258,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
         {/* Agent */}
         {agents.length > 0 && (
           <div className="flex flex-col gap-2">
-            <Label htmlFor="agent">Agjenti</Label>
+            <Label htmlFor="agent">Agent</Label>
             <Select
               value={form.agent_id || ''}
               onValueChange={(value) => update('agent_id', value ?? '')}
@@ -277,12 +277,12 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
 
         {/* Description */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="description">Përshkrimi</Label>
+          <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
             value={form.description}
             onChange={(e) => update('description', e.target.value)}
-            placeholder="Përshkruani pronën..."
+            placeholder="Describe the property..."
             rows={4}
           />
         </div>
@@ -297,13 +297,13 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
             placeholder="dQw4w9WgXcQ"
           />
           <p className="text-xs text-muted-foreground">
-            Vendosni vetëm ID-në e videos (pjesa pas ?v= në URL)
+            Enter only the video ID (the part after ?v= in the URL)
           </p>
         </div>
 
         {/* Main Photo */}
         <div className="flex flex-col gap-2">
-          <Label>Foto Kryesore</Label>
+          <Label>Main Photo</Label>
           <input
             ref={fileInputRef}
             type="file"
@@ -329,15 +329,15 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
               className="flex h-48 w-full max-w-sm flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
             >
               <ImagePlus className="h-8 w-8" />
-              <span className="text-sm font-medium">Klikoni për të ngarkuar foton kryesore</span>
-              <span className="text-xs">PNG ose JPG</span>
+              <span className="text-sm font-medium">Click to upload the main photo</span>
+              <span className="text-xs">PNG or JPG</span>
             </button>
           )}
         </div>
 
         {/* Gallery */}
         <div className="flex flex-col gap-2">
-          <Label>Galeria e Fotove</Label>
+          <Label>Photo Gallery</Label>
           <input
             ref={galleryInputRef}
             type="file"
@@ -354,7 +354,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
           >
             <ImagePlus className="h-6 w-6" />
             <span className="text-sm font-medium">
-              {galleryUploading ? 'Duke ngarkuar...' : 'Klikoni për të ngarkuar foto galerie (mund të zgjidhni disa)'}
+              {galleryUploading ? 'Uploading...' : 'Click to upload gallery photos (you can select multiple)'}
             </span>
           </button>
 
@@ -385,7 +385,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
       <div className="mt-6 flex items-center gap-3">
         <Button type="submit" disabled={isPending} className="gap-1.5">
           {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isEdit ? 'Përditëso' : 'Ruaj'}
+          {isEdit ? 'Update' : 'Save'}
         </Button>
         <Button
           type="button"
@@ -393,7 +393,7 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
           onClick={() => router.push('/admin/dashboard')}
           disabled={isPending}
         >
-          Anulo
+          Cancel
         </Button>
       </div>
     </form>

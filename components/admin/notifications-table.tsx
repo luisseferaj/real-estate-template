@@ -59,7 +59,7 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
       if (result?.error) {
         toast.error(result.error)
       } else {
-        toast.success('Njoftimi u fshi me sukses')
+        toast.success('Notification was deleted successfully')
       }
       setTarget(null)
     })
@@ -71,12 +71,12 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
           <Bell className="h-6 w-6 text-muted-foreground" />
         </div>
-        <h3 className="text-lg font-medium">Nuk ka njoftime akoma</h3>
+        <h3 className="text-lg font-medium">No notifications</h3>
         <p className="max-w-sm text-sm text-muted-foreground">
-          Filloni duke shtuar njoftimin tuaj të parë.
+          Start adding your first notification
         </p>
         <Link href="/admin/notifications/new">
-          <Button className="mt-2">Shto Njoftim</Button>
+          <Button className="mt-2">Add Notification</Button>
         </Link>
       </div>
     )
@@ -96,24 +96,24 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
       </div>
 
       <p className="mb-3 text-sm text-muted-foreground">
-        Duke shfaqur <span className="font-semibold text-foreground">{start + 1}–{Math.min(start + PER_PAGE, filtered.length)}</span> nga <span className="font-semibold text-foreground">{filtered.length}</span> njoftime
+        Showing <span className="font-semibold text-foreground">{start + 1}–{Math.min(start + PER_PAGE, filtered.length)}</span> nga <span className="font-semibold text-foreground">{filtered.length}</span> njoftime
       </p>
 
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
-              <TableHead>Titulli</TableHead>
-              <TableHead>Përmbajtja</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Content</TableHead>
               <TableHead>Data</TableHead>
-              <TableHead className="text-right">Veprimet</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {visible.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="py-12 text-center text-muted-foreground">
-                  Asnjë njoftim nuk përputhet me kërkimin.
+                  No results match.
                 </TableCell>
               </TableRow>
             ) : (
@@ -131,7 +131,7 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
                       <Link href={`/admin/notifications/${notification.id}/edit`}>
                         <Button variant="outline" size="sm" className="gap-1.5">
                           <Pencil className="h-3.5 w-3.5" />
-                          Ndrysho
+                          Edit
                         </Button>
                       </Link>
                       <Button
@@ -141,7 +141,7 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
                         onClick={() => setTarget(notification)}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
-                        Fshi
+                        Delete
                       </Button>
                     </div>
                   </TableCell>
@@ -190,20 +190,20 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
       <Dialog open={target !== null} onOpenChange={(open) => !open && setTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Fshi njoftimin</DialogTitle>
+            <DialogTitle>Delete notification</DialogTitle>
             <DialogDescription>
-              Jeni të sigurt që dëshironi të fshini{' '}
+              Are you sure you want to delete{' '}
               <span className="font-medium text-foreground">{target?.title}</span>?
-              Ky veprim nuk mund të zhbëhet.
+              This action can not be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setTarget(null)} disabled={isPending}>
-              Anulo
+              Cancel
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isPending} className="gap-1.5">
               {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-              Fshi
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>

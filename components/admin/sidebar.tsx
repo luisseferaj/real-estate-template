@@ -18,12 +18,12 @@ import {
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/dashboard#listings', label: 'Pronat', icon: ListChecks },
-  { href: '/admin/properties/new', label: 'Shto Pronë', icon: PlusCircle },
-  { href: '/admin/notifications', label: 'Njoftimet', icon: Bell },
-  { href: '/admin/notifications/new', label: 'Shto Njoftim', icon: PlusSquare },
-  { href: '/admin/agents', label: 'Agjentet', icon: Users}, 
-  { href: '/admin/stats', label:'Statistikat', icon: BarChart2}
+  { href: '/admin/dashboard#listings', label: 'Properties', icon: ListChecks },
+  { href: '/admin/properties/new', label: 'Add Property', icon: PlusCircle },
+  { href: '/admin/notifications', label: 'Notifications', icon: Bell },
+  { href: '/admin/notifications/new', label: 'Add Notification', icon: PlusSquare },
+  { href: '/admin/agents', label: 'Agents', icon: Users}, 
+  { href: '/admin/stats', label:'Statistics', icon: BarChart2}
 ]
 
 export function Sidebar() {
@@ -39,7 +39,7 @@ export function Sidebar() {
           <span className="font-serif text-lg font-semibold text-sidebar-foreground">
             Estate Admin
           </span>
-          <span className="text-xs text-muted-foreground">Panel i Administrimit</span>
+          <span className="text-xs text-muted-foreground">Administration panel</span>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export function Sidebar() {
             className="w-full justify-start gap-3 text-muted-foreground hover:text-sidebar-foreground"
           >
             <LogOut className="h-4 w-4" />
-            Dilni
+            Sign Out
           </Button>
         </form>
       </div>

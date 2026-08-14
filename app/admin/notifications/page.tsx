@@ -15,16 +15,16 @@ export default async function NotificationsPage() {
       <header className="flex items-center justify-between border-b border-border px-8 py-6">
         <div>
           <h1 className="font-serif text-2xl font-semibold tracking-tight">
-            Njoftimet
+            Notifications
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Menaxhoni njoftimet e kompanisë.
+            Manage your company's notifications.
           </p>
         </div>
         <Link href="/admin/notifications/new">
           <Button className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Shto Njoftim
+            Add Notification
           </Button>
         </Link>
       </header>

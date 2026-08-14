@@ -51,10 +51,10 @@ export function AgentForm({ agent }: { agent?: Agent }) {
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      toast.error('Ju lutem zgjidhni një foto')
+      toast.error('Please choose a photo')
       return
     }
-    toast.info('Duke ngarkuar foton...')
+    toast.info('Uploading photo...')
     const reader = new FileReader()
     reader.onload = async () => {
       try {
@@ -66,12 +66,12 @@ export function AgentForm({ agent }: { agent?: Agent }) {
         const json = await res.json()
         if (json.url) {
           update('photo', json.url)
-          toast.success('Foto u ngarkua me sukses!')
+          toast.success('Photo uploaded successfully!')
         } else {
-          toast.error('Ngarkimi dështoi')
+          toast.error('Upload failed')
         }
       } catch {
-        toast.error('Ngarkimi dështoi')
+        toast.error('Upload failed')
       }
     }
     reader.readAsDataURL(file)
@@ -80,7 +80,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.name.trim()) {
-      toast.error('Emri është i detyrueshëm')
+      toast.error('Name is required')
       return
     }
     startTransition(async () => {
@@ -99,7 +99,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
         
         {/* Photo */}
         <div className="flex flex-col gap-2">
-          <Label>Foto</Label>
+          <Label>Photo</Label>
           <input
             ref={fileInputRef}
             type="file"
@@ -125,14 +125,14 @@ export function AgentForm({ agent }: { agent?: Agent }) {
               className="flex h-48 w-48 flex-col items-center justify-center gap-2 rounded-full border border-dashed border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
             >
               <ImagePlus className="h-8 w-8" />
-              <span className="text-xs font-medium">Foto</span>
+              <span className="text-xs font-medium">Photo</span>
             </button>
           )}
         </div>
 
         {/* Name */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="name">Emri</Label>
+          <Label htmlFor="name">Name</Label>
           <Input
             id="name"
             value={form.name}
@@ -144,7 +144,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
 
         {/* Role */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="role">Roli</Label>
+          <Label htmlFor="role">Role</Label>
           <Input
             id="role"
             value={form.role}
@@ -155,7 +155,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
 
         {/* Phone */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="phone">Telefon</Label>
+          <Label htmlFor="phone">Phone</Label>
           <Input
             id="phone"
             value={form.phone}
@@ -190,7 +190,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
       <div className="mt-6 flex items-center gap-3">
         <Button type="submit" disabled={isPending} className="gap-1.5">
           {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isEdit ? 'Përditëso' : 'Shto'}
+          {isEdit ? 'Update' : 'Add'}
         </Button>
         <Button
           type="button"
@@ -198,7 +198,7 @@ export function AgentForm({ agent }: { agent?: Agent }) {
           onClick={() => router.push('/admin/agents')}
           disabled={isPending}
         >
-          Anulo
+          Cancel
         </Button>
       </div>
     </form>

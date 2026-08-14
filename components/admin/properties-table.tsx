@@ -65,7 +65,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
       if (result?.error) {
         toast.error(result.error)
       } else {
-        toast.success('Prona u fshi me sukses')
+        toast.success('Property was deleted succesfully')
       }
       setTarget(null)
     })
@@ -77,12 +77,12 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
           <ImageIcon className="h-6 w-6 text-muted-foreground" />
         </div>
-        <h3 className="text-lg font-medium">Nuk ka prona akoma</h3>
+        <h3 className="text-lg font-medium">No properties</h3>
         <p className="max-w-sm text-sm text-muted-foreground">
-          Filloni duke shtuar pronën tuaj të parë.
+          Start adding your first property.
         </p>
         <Link href="/admin/properties/new">
-          <Button className="mt-2">Shto Pronë</Button>
+          <Button className="mt-2">Add Property</Button>
         </Link>
       </div>
     )
@@ -97,33 +97,33 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
           type="text"
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Kërko sipas titullit ose vendndodhjes..."
+          placeholder="Search by title or location"
           className="h-10 w-full rounded-xl border border-border bg-card pl-9 pr-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary sm:max-w-sm"
         />
       </div>
 
       {/* Results count */}
       <p className="mb-3 text-sm text-muted-foreground">
-        Duke shfaqur <span className="font-semibold text-foreground">{start + 1}–{Math.min(start + PER_PAGE, filtered.length)}</span> nga <span className="font-semibold text-foreground">{filtered.length}</span> prona
+        Showing <span className="font-semibold text-foreground">{start + 1}–{Math.min(start + PER_PAGE, filtered.length)}</span> nga <span className="font-semibold text-foreground">{filtered.length}</span> prona
       </p>
 
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
-              <TableHead>Foto</TableHead>
-              <TableHead>Titulli</TableHead>
-              <TableHead>Vendndodhja</TableHead>
-              <TableHead>Çmimi</TableHead>
-              <TableHead>Statusi</TableHead>
-              <TableHead className="text-right">Veprimet</TableHead>
+              <TableHead>Photo</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {visible.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="py-12 text-center text-muted-foreground">
-                  Asnjë pronë nuk përputhet me kërkimin.
+                  No properties found.
                 </TableCell>
               </TableRow>
             ) : (
@@ -152,7 +152,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
                     </span>
                   </TableCell>
                   <TableCell className="font-medium text-primary">
-                    {property.status === 'rent' ? `€${property.price}/muaj` : `€${property.price}`}
+                    {property.status === 'rent' ? `€${property.price}/month` : `€${property.price}`}
                   </TableCell>
                   <TableCell>
                     <span className={
@@ -160,7 +160,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
                         ? 'inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary'
                         : 'inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground'
                     }>
-                      {property.status === 'sale' ? 'Në Shitje' : 'Me Qira'}
+                      {property.status === 'sale' ? 'Sale' : 'Rent'}
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
@@ -168,7 +168,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
                       <Link href={`/admin/properties/${property.id}/edit`}>
                         <Button variant="outline" size="sm" className="gap-1.5">
                           <Pencil className="h-3.5 w-3.5" />
-                          Ndrysho
+                          Edit
                         </Button>
                       </Link>
                       <Button
@@ -178,7 +178,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
                         onClick={() => setTarget(property)}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
-                        Fshi
+                        Delete
                       </Button>
                     </div>
                   </TableCell>
@@ -229,20 +229,20 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
       <Dialog open={target !== null} onOpenChange={(open) => !open && setTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Fshi pronën</DialogTitle>
+            <DialogTitle>Delete Property</DialogTitle>
             <DialogDescription>
-              Jeni të sigurt që dëshironi të fshini{' '}
+              Are you sure you want to delete{' '}
               <span className="font-medium text-foreground">{target?.title}</span>?
-              Ky veprim nuk mund të zhbëhet.
+              This action can not be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setTarget(null)} disabled={isPending}>
-              Anulo
+              Cancel
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isPending} className="gap-1.5">
               {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-              Fshi
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>

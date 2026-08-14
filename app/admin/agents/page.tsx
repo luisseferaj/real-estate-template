@@ -15,16 +15,16 @@ export default async function AgentsPage() {
       <header className="flex items-center justify-between border-b border-border px-8 py-6">
         <div>
           <h1 className="font-serif text-2xl font-semibold tracking-tight">
-            Agjentët
+            Agents
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Menaxhoni ekipin tuaj.
+            Manage your team.
           </p>
         </div>
         <Link href="/admin/agents/new">
           <Button className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Shto Agjent
+            Add Agent
           </Button>
         </Link>
       </header>

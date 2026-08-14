@@ -13,10 +13,10 @@ export default async function StatsPage() {
     <AdminShell>
       <header className="border-b border-border px-8 py-6">
         <h1 className="font-serif text-2xl font-semibold tracking-tight">
-          Statistikat
+          Statistics
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Ndryshoni numrat që shfaqen në faqen kryesore.
+          Update the numbers that appear on the homepage.
         </p>
       </header>
 

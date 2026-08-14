@@ -33,7 +33,7 @@ export default async function DashboardPage() {
         <Link href="/admin/properties/new">
           <Button className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Shto Pronë
+            Add Property
           </Button>
         </Link>
       </header>

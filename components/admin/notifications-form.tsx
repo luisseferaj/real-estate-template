@@ -48,10 +48,10 @@ export function NotificationForm({ notification }: { notification?: Notification
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      toast.error('Ju lutem zgjidhni një foto')
+      toast.error('Please choose a photo')
       return
     }
-    toast.info('Duke ngarkuar foton...')
+    toast.info('Uploading photo...')
     const reader = new FileReader()
     reader.onload = async () => {
       try {
@@ -63,12 +63,12 @@ export function NotificationForm({ notification }: { notification?: Notification
         const json = await res.json()
         if (json.url) {
           update('image', json.url)
-          toast.success('Foto u ngarkua me sukses!')
+          toast.success('Photo uploaded successfully!')
         } else {
-          toast.error('Ngarkimi dështoi')
+          toast.error('Upload failed')
         }
       } catch {
-        toast.error('Ngarkimi dështoi')
+        toast.error('Upload failed')
       }
     }
     reader.readAsDataURL(file)
@@ -78,15 +78,15 @@ export function NotificationForm({ notification }: { notification?: Notification
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('video/')) {
-      toast.error('Ju lutem zgjidhni një video')
+      toast.error('Please choose a video')
       return
     }
     if (file.size > 50 * 1024 * 1024) {
-      toast.error('Video duhet të jetë më e vogël se 50MB')
+      toast.error('Video must be smaller than 50MB')
       return
     }
     setVideoUploading(true)
-    toast.info('Duke ngarkuar videon...')
+    toast.info('Uploading video...')
     const reader = new FileReader()
     reader.onload = async () => {
       try {
@@ -98,12 +98,12 @@ export function NotificationForm({ notification }: { notification?: Notification
         const json = await res.json()
         if (json.url) {
           update('video_url', json.url)
-          toast.success('Video u ngarkua me sukses!')
+          toast.success('Video uploaded successfully!')
         } else {
-          toast.error('Ngarkimi dështoi')
+          toast.error('Upload failed')
         }
       } catch {
-        toast.error('Ngarkimi dështoi')
+        toast.error('Upload failed')
       } finally {
         setVideoUploading(false)
       }
@@ -114,11 +114,11 @@ export function NotificationForm({ notification }: { notification?: Notification
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.title.trim()) {
-      toast.error('Titulli është i detyrueshëm')
+      toast.error('Title is required')
       return
     }
     if (!form.content.trim()) {
-      toast.error('Përmbajtja është e detyrueshme')
+      toast.error('Content is required')
       return
     }
     startTransition(async () => {
@@ -136,31 +136,31 @@ export function NotificationForm({ notification }: { notification?: Notification
       <div className="grid gap-6 rounded-xl border border-border bg-card p-6 sm:p-8">
         {/* Title */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="title">Titulli</Label>
+          <Label htmlFor="title">Title</Label>
           <Input
             id="title"
             value={form.title}
             onChange={(e) => update('title', e.target.value)}
-            placeholder="Kompleks i ri banesash në Tiranë"
+            placeholder="New Housing Complex in ...."
             required
           />
         </div>
 
         {/* Content */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="content">Përmbajtja</Label>
+          <Label htmlFor="content">Content</Label>
           <Textarea
             id="content"
             value={form.content}
             onChange={(e) => update('content', e.target.value)}
-            placeholder="Shkruani njoftimin këtu..."
+            placeholder="Enter the notification content here..."
             rows={6}
           />
         </div>
 
         {/* Photo */}
         <div className="flex flex-col gap-2">
-          <Label>Foto (opsionale)</Label>
+          <Label>Photo (optional)</Label>
           <input
             ref={fileInputRef}
             type="file"
@@ -186,15 +186,15 @@ export function NotificationForm({ notification }: { notification?: Notification
               className="flex h-48 w-full max-w-sm flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
             >
               <ImagePlus className="h-8 w-8" />
-              <span className="text-sm font-medium">Klikoni për të ngarkuar foto</span>
-              <span className="text-xs">PNG ose JPG</span>
+              <span className="text-sm font-medium">Click to upload photo</span>
+              <span className="text-xs">PNG or JPG</span>
             </button>
           )}
         </div>
 
         {/* Video */}
         <div className="flex flex-col gap-2">
-          <Label>Video (opsionale)</Label>
+          <Label>Video (optional)</Label>
           <input
             ref={videoInputRef}
             type="file"
@@ -227,7 +227,7 @@ export function NotificationForm({ notification }: { notification?: Notification
             >
               <Video className="h-8 w-8" />
               <span className="text-sm font-medium">
-                {videoUploading ? 'Duke ngarkuar videon...' : 'Klikoni për të ngarkuar video (max 50MB)'}
+                {videoUploading ? 'Uploading video...' : 'Click to upload video (max 50MB)'}
               </span>
             </button>
           )}
@@ -237,7 +237,7 @@ export function NotificationForm({ notification }: { notification?: Notification
       <div className="mt-6 flex items-center gap-3">
         <Button type="submit" disabled={isPending} className="gap-1.5">
           {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isEdit ? 'Përditëso' : 'Publiko'}
+          {isEdit ? 'Update' : 'Publish'}
         </Button>
         <Button
           type="button"
@@ -245,7 +245,7 @@ export function NotificationForm({ notification }: { notification?: Notification
           onClick={() => router.push('/admin/notifications')}
           disabled={isPending}
         >
-          Anulo
+          Cancel
         </Button>
       </div>
     </form>

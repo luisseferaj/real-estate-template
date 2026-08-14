@@ -23,10 +23,10 @@ export default async function EditAgentPage({
           className="mb-3 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Kthehu te agjentët
+          Return to agents
         </Link>
         <h1 className="font-serif text-2xl font-semibold tracking-tight">
-          Ndrysho Agjentin
+          Edit Agent
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{agent.name}</p>
       </header>

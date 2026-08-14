@@ -70,7 +70,7 @@ export function LoginForm() {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Fjalëkalimi</Label>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
@@ -88,7 +88,7 @@ export function LoginForm() {
 
           <Button type="submit" className="mt-1 w-full" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            Hyr
+            Sign In
           </Button>
         </div>
       </form>
