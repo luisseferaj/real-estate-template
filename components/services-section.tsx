@@ -62,11 +62,13 @@ export function ServicesSection({ lang = "al" }: { lang?: Lang }) {
         </div>
 
         {/* Right — company photo */}
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center" style={{ minHeight: '400px' }}>
-          <div className="text-center p-8">
-            <img src={config.logo} alt={config.companyName} className="h-24 w-auto mx-auto mb-4 opacity-80" />
-            <p className="text-muted-foreground text-sm">{config.companyName}</p>
-          </div>
+        <div className="relative overflow-hidden rounded-2xl border border-border">
+          <img
+            src="/description.jpg"
+            alt={config.companyName}
+            className="w-full object-contain"
+            style={{ maxHeight: '500px' }}
+          />
         </div>
 
       </div>

@@ -7,7 +7,15 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-secondary pt-28 pb-40 sm:pt-32">
       {/* Background image */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/20" />
+      <div className="absolute inset-0">
+        <img
+          src="/images/hero-architecture.jpg"
+          alt={config.companyName}
+          className="h-full w-full object-cover object-center opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">

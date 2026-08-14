@@ -7,8 +7,15 @@ export function CtaSection({ lang = "al" }: { lang?: Lang }) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-background" />
-
+      <div className="absolute inset-0">
+        <img
+          src="/images/cta-city.jpg"
+          alt={config.companyName}
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-background/75" />
+      </div>
+      
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
         <h2 className="max-w-2xl text-balance font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           {lang === "en" ? "Find your perfect property" : "Gjeni pronën tuaj të përsosur"}

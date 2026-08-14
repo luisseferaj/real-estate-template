@@ -1,41 +1,39 @@
 import Link from "next/link"
 import { type Lang } from "@/lib/i18n"
 
-const gradients = [
-  "from-blue-900 to-blue-700",
-  "from-emerald-900 to-emerald-700",
-  "from-amber-900 to-amber-700",
-  "from-purple-900 to-purple-700",
-]
 
 const areas = [
   {
-    city_al: "Zona 1",
-    city_en: "Area 1",
-    description_al: "Përshkrimi i zonës së parë.",
-    description_en: "Description of the first area.",
-    query: "Area 1",
+    city_al: "Downtown",
+    city_en: "Downtown",
+    description_al: "The heart of the city with diverse property options.",
+    description_en: "The heart of the city with diverse property options.",
+    image: "/cities/area1.jpg",
+    query: "Downtown",
   },
   {
-    city_al: "Zona 2",
-    city_en: "Area 2",
-    description_al: "Përshkrimi i zonës së dytë.",
-    description_en: "Description of the second area.",
-    query: "Area 2",
+    city_al: "Beachfront",
+    city_en: "Beachfront",
+    description_al: "Coastal properties with stunning sea views.",
+    description_en: "Coastal properties with stunning sea views.",
+    image: "/cities/area2.jpg",
+    query: "Beachfront",
   },
   {
-    city_al: "Zona 3",
-    city_en: "Area 3",
-    description_al: "Përshkrimi i zonës së tretë.",
-    description_en: "Description of the third area.",
-    query: "Area 3",
+    city_al: "Suburbs",
+    city_en: "Suburbs",
+    description_al: "Peaceful residential areas with great investment potential.",
+    description_en: "Peaceful residential areas with great investment potential.",
+    image: "/cities/area3.jpg",
+    query: "Suburbs",
   },
   {
-    city_al: "Zona 4",
-    city_en: "Area 4",
-    description_al: "Përshkrimi i zonës së katërt.",
-    description_en: "Description of the fourth area.",
-    query: "Area 4",
+    city_al: "City Center",
+    city_en: "City Center",
+    description_al: "Premium properties in the most sought-after location.",
+    description_en: "Premium properties in the most sought-after location.",
+    image: "/cities/area4.jpg",
+    query: "City Center",
   },
 ]
 
@@ -54,7 +52,7 @@ export function AreasSection({ lang = "al" }: { lang?: Lang }) {
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {areas.map((area, index) => {
+        {areas.map((area) => {
           const city = lang === "en" ? area.city_en : area.city_al
           const description = lang === "en" ? area.description_en : area.description_al
 
@@ -62,9 +60,15 @@ export function AreasSection({ lang = "al" }: { lang?: Lang }) {
             <Link
               key={area.city_en}
               href={`${prefix}/pronat?adresa=${encodeURIComponent(area.query)}`}
-              className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${gradients[index]}`}
-              style={{ aspectRatio: "3/4" }}
+              className={`group relative overflow-hidden rounded-2xl border border-border `}
+              style={{ aspectRatio: "3/4" }}  
             >
+
+              <img
+                src={area.image}
+                alt={city}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
