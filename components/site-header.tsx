@@ -73,7 +73,8 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           })}
         </nav>
 
-        {/* Language switcher */}
+        {/* Language switcher - Uncomment to enable it */}
+        {/*
         <div className="hidden md:flex items-center gap-1 rounded-full border border-border/70 bg-card/70 px-2 py-1.5">
           <button
             onClick={() => handleLangSwitch("al")}
@@ -92,6 +93,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
             EN
           </button>
         </div>
+        */}
 
         <button
           type="button"
@@ -118,6 +120,8 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               </Link>
             ))}
           </nav>
+          {/*Language switcher for mobile, uncomment to enable it */}
+          {/*
           <div className="mt-3 flex gap-2 border-t border-border pt-3">
             <button
               onClick={() => { handleLangSwitch("al"); setOpen(false) }}
@@ -136,6 +140,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               English
             </button>
           </div>
+          */}
         </div>
       )}
     </header>
