@@ -17,9 +17,6 @@ node_modules
 # Placeholder photos - buyers add their own
 /public/logo.jpeg
 /public/description.jpeg
-/public/images/hero-architecture.jpg
-/public/images/cta-city.jpg
-/public/cities/
 /public/favicon*.png
 /public/apple-touch-icon.png
 /public/favicon.ico

@@ -56,6 +56,24 @@ type Property = {
   agent_id?: string | null
 }
 
+async function uploadToCloudinary(file: File, isVideo: boolean) {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', 'real-estate')
+  formData.append('folder', 'real-estate')
+  const resourceType = isVideo ? 'video' : 'image'
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+    {
+      method: 'POST',
+      body: formData,
+    }
+  )
+  if (!res.ok) throw new Error('Upload failed')
+  const data = await res.json()
+  return data.secure_url
+}
+
 export function PropertyForm({ property, agents = [] }: { property?: Property; agents?: Agent[] }) {
   const router = useRouter()
   const isEdit = Boolean(property)
@@ -84,66 +102,41 @@ export function PropertyForm({ property, agents = [] }: { property?: Property; a
   }
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file')
-      return
-    }
-    toast.info('Uploading photo...')
-    const reader = new FileReader()
-    reader.onload = async () => {
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: reader.result }),
-        })
-        const json = await res.json()
-        if (json.url) {
-          update('image', json.url)
-          toast.success('Photo uploaded successfully!')
-        } else {
-          toast.error('Upload failed')
-        }
-      } catch {
-        toast.error('Upload failed')
-      }
-    }
-    reader.readAsDataURL(file)
+  const file = e.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) {
+    toast.error('Please select an image file')
+    return
   }
+  toast.info('Uploading photo...')
+  try {
+    const url = await uploadToCloudinary(file, false)
+    update('image', url)
+    toast.success('Photo uploaded!')
+  } catch {
+    toast.error('Upload failed')
+  }
+}
 
   async function handleGalleryChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? [])
-    if (files.length === 0) return
-    setGalleryUploading(true)
-    toast.info('Uploading photos...')
+  const files = Array.from(e.target.files ?? [])
+  if (files.length === 0) return
+  setGalleryUploading(true)
+  toast.info('Uploading photos...')
 
-    const urls: string[] = []
-    for (const file of files) {
-      if (!file.type.startsWith('image/')) continue
-      const reader = new FileReader()
-      await new Promise<void>((resolve) => {
-        reader.onload = async () => {
-          try {
-            const res = await fetch('/api/upload', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ data: reader.result }),
-            })
-            const json = await res.json()
-            if (json.url) urls.push(json.url)
-          } catch {}
-          resolve()
-        }
-        reader.readAsDataURL(file)
-      })
-    }
-
-    update('gallery', [...form.gallery, ...urls])
-    setGalleryUploading(false)
-    toast.success(`${urls.length} photos uploaded successfully!`)
+  const urls: string[] = []
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue
+    try {
+      const url = await uploadToCloudinary(file, false)
+      urls.push(url)
+    } catch {}
   }
+
+  update('gallery', [...form.gallery, ...urls])
+  setGalleryUploading(false)
+  toast.success(`${urls.length} photos uploaded!`)
+}
 
   function removeGalleryImage(index: number) {
     update('gallery', form.gallery.filter((_, i) => i !== index))

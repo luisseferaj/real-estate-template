@@ -25,6 +25,24 @@ type FormState = {
   video_url: string
 }
 
+async function uploadToCloudinary(file: File, isVideo: boolean) {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', 'real-estate')
+  formData.append('folder', 'real-estate')
+  const resourceType = isVideo ? 'video' : 'image'
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+    {
+      method: 'POST',
+      body: formData,
+    }
+  )
+  if (!res.ok) throw new Error('Upload failed')
+  const data = await res.json()
+  return data.secure_url
+}
+
 export function NotificationForm({ notification }: { notification?: Notification }) {
   const router = useRouter()
   const isEdit = Boolean(notification)
@@ -45,71 +63,45 @@ export function NotificationForm({ notification }: { notification?: Notification
   }
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please choose a photo')
-      return
-    }
-    toast.info('Uploading photo...')
-    const reader = new FileReader()
-    reader.onload = async () => {
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: reader.result, type: 'image' }),
-        })
-        const json = await res.json()
-        if (json.url) {
-          update('image', json.url)
-          toast.success('Photo uploaded successfully!')
-        } else {
-          toast.error('Upload failed')
-        }
-      } catch {
-        toast.error('Upload failed')
-      }
-    }
-    reader.readAsDataURL(file)
+  const file = e.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) {
+    toast.error('Please select an image file')
+    return
   }
+  toast.info('Uploading photo...')
+  try {
+    const url = await uploadToCloudinary(file, false)
+    update('image', url)
+    toast.success('Photo uploaded!')
+  } catch {
+    toast.error('Upload failed')
+  }
+}
 
   async function handleVideoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('video/')) {
-      toast.error('Please choose a video')
-      return
-    }
-    if (file.size > 50 * 1024 * 1024) {
-      toast.error('Video must be smaller than 50MB')
-      return
-    }
-    setVideoUploading(true)
-    toast.info('Uploading video...')
-    const reader = new FileReader()
-    reader.onload = async () => {
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: reader.result, type: 'video' }),
-        })
-        const json = await res.json()
-        if (json.url) {
-          update('video_url', json.url)
-          toast.success('Video uploaded successfully!')
-        } else {
-          toast.error('Upload failed')
-        }
-      } catch {
-        toast.error('Upload failed')
-      } finally {
-        setVideoUploading(false)
-      }
-    }
-    reader.readAsDataURL(file)
+  const file = e.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('video/')) {
+    toast.error('Please select a video file')
+    return
   }
+  if (file.size > 50 * 1024 * 1024) {
+    toast.error('Video must be less than 50MB')
+    return
+  }
+  setVideoUploading(true)
+  toast.info('Uploading video...')
+  try {
+    const url = await uploadToCloudinary(file, true)
+    update('video_url', url)
+    toast.success('Video uploaded!')
+  } catch {
+    toast.error('Upload failed')
+  } finally {
+    setVideoUploading(false)
+  }
+}
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
