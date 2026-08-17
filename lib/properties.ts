@@ -24,7 +24,7 @@ export function euro(value: number): string {
 }
 
 export function formatPrice(property: Property): string {
-  return property.status === "rent" ? `${euro(property.price)}/muaj` : euro(property.price)
+  return property.status === "rent" ? `${euro(property.price)}/month` : euro(property.price)
 }
 
 
