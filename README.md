@@ -125,7 +125,10 @@ Change `currency` in `lib/config.ts`.
 
 ## Support
 
-For questions or customization help, contact [your email here].
+For questions or customization help, contact luisseferaj1@gmail.com.
+
+## 🚀 Get the full version
+[Buy on Gumroad](https://luisseferaj.gumroad.com/l/iyndv?_gl=1*1or4ohf*_ga*MTY4MzIzNzk5Mi4xNzg2NTIxMjQw*_ga_6LJN6D94N6*czE3ODcwMzk4NTMkbzUkZzEkdDE3ODcwNDEyMzEkajI1JGwwJGgw)
 
 ## License
 
